@@ -37,12 +37,14 @@ Route::delete('/test', function () {
 Route::patch('/test', function () {
     echo 'PATCH';
 })->name("patchIndex");*/
+Route::group(["prefix" => "admin", "as" => "admin."], function(){
+    Route::get('/users', 'UserController@index')->name('user.index');
+    Route::get('/users/create', 'UserController@create')->name('user.create');
+    Route::post("/users", "UserController@store")->name('user.store');
+    Route::get("/users/{id}", "UserController@show")->where('id', '[0-9]+')->name('user.show');
+    Route::put("/users/{id}", "UserController@update")->name('user.update');
+    Route::delete("/users/{id}", "UserController@delete")->name('user.delete');
+});
 
-Route::get('/users', 'UserController@index')->name('user.index');
-Route::get('/users/create', 'UserController@create')->name('user.create');
-Route::post("/users", "UserController@store")->name('user.store');
-Route::get("/users/{id}/abc/{name}", "UserController@show")->where('id', '[0-9]+')->name('user.show');
-Route::put("/users/{id}", "UserController@update")->name('user.update');
-Route::delete("/users/{id}", "UserController@update")->name('user.delete');
 
 Route::get('/home', 'HomeController@index')->name('home');
