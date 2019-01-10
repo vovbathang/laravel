@@ -5,6 +5,7 @@
  * Date: 10/01/2019
  * Time: 17:21
  */
+
 namespace App\Http\Controllers;
 
 use App\Product;
@@ -31,7 +32,8 @@ class ProductController extends Controller
     }
 
 
-    public function create() {
+    public function create()
+    {
         $data['products'] = Product::where([
             ['parent', '=', 0],
             ['id', '<>', 1],
@@ -39,7 +41,8 @@ class ProductController extends Controller
         return view('admin.products.create', $data);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:products,name',
             'parent' => 'required'
@@ -50,7 +53,7 @@ class ProductController extends Controller
             'parent.exists' => 'Parent ID không hợp lệ'
         ]);
 
-        $valid->sometimes('parent', 'exists:products,id', function($input) {
+        $valid->sometimes('parent', 'exists:products,id', function ($input) {
             return $input->parent !== "0";
         });
         if ($valid->fails()) {
@@ -70,7 +73,8 @@ class ProductController extends Controller
         }
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $data['product'] = Product::find($id);
         dd($data['product']->tags);
         if ($data['product'] !== null) {
@@ -79,7 +83,8 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index')->with('error', 'Không tìm thấy sản phẩm này');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:products,name,' . $id,
             'parent' => 'required'
@@ -109,7 +114,8 @@ class ProductController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $product = Product::find($id);
         if ($product !== null) {
             $product->delete();
