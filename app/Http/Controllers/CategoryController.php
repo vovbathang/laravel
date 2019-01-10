@@ -5,6 +5,7 @@
  * Date: 10/01/2019
  * Time: 11:19
  */
+
 namespace App\Http\Controllers;
 
 use App\Category;
@@ -31,7 +32,8 @@ class CategoryController extends Controller
     }
 
 
-    public function create() {
+    public function create()
+    {
         $data['categories'] = Category::where([
             ['parent', '=', 0],
             ['id', '<>', 1],
@@ -39,7 +41,8 @@ class CategoryController extends Controller
         return view('admin.categories.create', $data);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:categories,name',
             'parent' => 'required'
@@ -50,7 +53,7 @@ class CategoryController extends Controller
             'parent.exists' => 'Parent ID không hợp lệ'
         ]);
 
-        $valid->sometimes('parent', 'exists:categories,id', function($input) {
+        $valid->sometimes('parent', 'exists:categories,id', function ($input) {
             return $input->parent !== "0";
         });
         if ($valid->fails()) {
@@ -70,11 +73,12 @@ class CategoryController extends Controller
         }
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $data['category'] = Category::find($id);
         $data['categories'] = Category::where([
-            ['parent','=', 0],
-            ['id','<>', 1],
+            ['parent', '=', 0],
+            ['id', '<>', 1],
         ])->get();
         if ($data['category'] !== null) {
             return view('admin.categories.show', $data);
@@ -82,7 +86,8 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index')->with('error', 'Không tìm thấy chuyên mục này');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:categories,name,' . $id,
             'parent' => 'required'
@@ -112,7 +117,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $category = Category::find($id);
         if ($category !== null) {
             $category->delete();

@@ -4,11 +4,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <a href="{{ route('admin.user.create') }}" class="btn btn-primary">Tạo người dùng</a>
+                    <a href="{{ route('admin.product.create') }}" class="btn btn-primary">Tạo sản phẩm</a>
                 </div>
                 <br>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Danh sách người dùng</div>
+                    <div class="panel-heading">Danh sách sản phẩm</div>
                     <div class="panel-body">
                         @if (session('message'))
                             <div class="alert alert-success">
@@ -26,32 +26,38 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Date Created</th>
-                                    <th>Date Updated</th>
+                                    <th>Code</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Images</th>
+                                    <th>Customer</th>
+                                    <th>Updated at</th>
                                     <th>Options</th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
-                                @forelse($users as $user)
+                                @forelse($products as $product)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>{{ $user->updated_at }}</td>
+                                        <td>{{ $product->id }}</td>
+                                        <td>{{ $product->name }}</td>
+                                        <td>{{ $product->code }}</td>
+                                        <td>{{ $product->sale_price }}</td>
+                                        <td>{{ $product->quantity }}</td>
+                                        <td>Không</td>
+                                        <td>{{ $product->user->name }}</td>
+                                        <td>{{ $product->updated_at }}</td>
                                         <td>
-                                            <a href="{{ route('admin.user.show', ['id' => $user->id]) }}"
-                                               class="btn btn-primary">Edit</a>
-                                            <a href="{{ route('admin.user.delete', ['id' => $user->id]) }}"
+                                            <a href="{{ route('admin.product.show', ['id' => $product->id]) }}"
+                                               class="btn btn-primary">Sửa</a>
+                                            <a href="{{ route('admin.product.delete', ['id' => $product->id]) }}"
                                                class="btn btn-danger"
                                                onclick="event.preventDefault();
-                                                       window.confirm('Bạn đã chắc chắn xóa chưa?') ?
-                                                       document.getElementById('user-delete-{{ $user->id }}').submit():
-                                                       0;">Delete</a>
-                                            <form action="{{ route('admin.user.delete', ['id' => $user->id]) }}"
-                                                  method="post" id="user-delete-{{ $user->id }}">
+                                                        window.confirm('Bạn đã chắc chắn xóa chưa?') ?
+                                                       document.getElementById('product-delete-{{ $product->id }}').submit() :
+                                                       0;">Xóa</a>
+                                            <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}"
+                                                  method="post" id="product-delete-{{ $product->id }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('delete') }}
                                             </form>
@@ -59,7 +65,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5">No data</td>
+                                        <td colspan="8">No Data</td>
                                     </tr>
                                 @endforelse
 
@@ -67,9 +73,8 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <div class="text-center">
-                            {{ $users->links() }}
+                            {{ $products->links() }}
                         </div>
                     </div>
                 </div>

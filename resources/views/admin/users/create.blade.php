@@ -1,14 +1,14 @@
-@extends("admin.master")
-@section("content")
+@extends('admin.master')
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div>
-                    <a href="{{route("admin.user.index")}}" class="btn btn-primary">List of Users</a>
+                    <a href="{{ route('admin.user.index') }}" class="btn btn-primary">Danh sách người dùng</a>
                 </div>
-                <br/>
+                <br>
                 <div class="panel panel-default">
-                    <div class="panel-heading">Add Users</div>
+                    <div class="panel-heading">Thêm người dùng</div>
                     <div class="panel-body">
                         <form action="{{ route('admin.user.store') }}" method="POST">
                             {{ csrf_field() }}
