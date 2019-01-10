@@ -43,6 +43,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     &nbsp;<li><a href="{{route("admin.user.index")}}">User</a></li>
+                     <li><a href="{{route("admin.category.index")}}">Category</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
