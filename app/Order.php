@@ -23,12 +23,15 @@ class Order extends Model
         'user_id',
         'address',
         'email',
-        'phone',
+        'phone'
     ];
 
-    public function products()
-    {
-        return $this->belongsToMany("App\Product", "product_tag", "order_id", "product_id");
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products() {
+        return $this->belongsToMany('App\Product', 'product_order', 'order_id', 'product_id')
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }
