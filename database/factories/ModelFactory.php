@@ -33,8 +33,24 @@ $factory->define(App\Category::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Product::class, function (Faker\Generator $faker) {
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+    $name = $faker->name;
+    return [
+        'name' => $name,
+        'slug' => str_slug($name)
+    ];
+});
 
+$factory->define(App\Order::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => rand(1,50),
+        'address' => $faker->text(80),
+        'email' => $faker->email,
+        'phone' => $faker->phoneNumber
+    ];
+});
+
+$factory->define(App\Product::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'code' => strtoupper(str_random(6)),

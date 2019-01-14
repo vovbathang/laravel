@@ -25,14 +25,14 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th>Tên</th>
                                     <th>Code</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Images</th>
-                                    <th>Customer</th>
-                                    <th>Updated at</th>
-                                    <th>Options</th>
+                                    <th>Giá bán</th>
+                                    <th>Số lượng</th>
+                                    <th>Hình ảnh</th>
+                                    <th>Người đăng</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Chức năng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -44,7 +44,11 @@
                                         <td>{{ $product->code }}</td>
                                         <td>{{ $product->sale_price }}</td>
                                         <td>{{ $product->quantity }}</td>
-                                        <td>Không</td>
+                                        <td>
+                                            @if(file_exists(public_path("uploads/$product->image")))
+                                                <img src="{{asset("uploads/$product->image")}}" alt="Image" class="img-responsive img-thumbnail"/>
+                                            @endif
+                                        </td>
                                         <td>{{ $product->user->name }}</td>
                                         <td>{{ $product->updated_at }}</td>
                                         <td>
@@ -53,7 +57,7 @@
                                             <a href="{{ route('admin.product.delete', ['id' => $product->id]) }}"
                                                class="btn btn-danger"
                                                onclick="event.preventDefault();
-                                                        window.confirm('Bạn đã chắc chắn xóa chưa?') ?
+                                                       window.confirm('Bạn đã chắc chắn xóa chưa?') ?
                                                        document.getElementById('product-delete-{{ $product->id }}').submit() :
                                                        0;">Xóa</a>
                                             <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}"
@@ -65,7 +69,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8">No Data</td>
+                                        <td colspan="8">Không có dữ liệu nào</td>
                                     </tr>
                                 @endforelse
 
