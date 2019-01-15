@@ -1,6 +1,6 @@
 <?php
 
-return [
+return array(
 
     /*
     |--------------------------------------------------------------------------
@@ -136,7 +136,7 @@ return [
     |
     */
 
-    'providers' => [
+    'providers' => array(
 
         /*
          * Laravel Framework Service Providers...
@@ -177,7 +177,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-    ],
+    ),
+
+    // Laravel Extension
+    Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+    Barryvdh\Debugbar\ServiceProvider::class,
+    Intervention\Image\ImageServiceProvider::class,
+
+    // Library
+    App\QHOnline\Providers\ToolServiceProvider::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -190,7 +198,7 @@ return [
     |
     */
 
-    'aliases' => [
+    'aliases' => array(
 
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -225,7 +233,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Tool' => App\QHOnline\Facades\Tool::class,
 
-    ],
+    ),
 
-];
+);

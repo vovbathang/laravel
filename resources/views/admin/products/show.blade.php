@@ -15,14 +15,16 @@
                             {{ method_field('put') }}
                             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                 <label for="name">Tên chuyên mục</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Tên chuyên mục"
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="Tên chuyên mục"
                                        value="{{ $category->name }}">
                                 <span class="help-block">{{ $errors->first('name') }}</span>
                             </div>
 
                             <div class="form-group {{ $errors->has('order') ? 'has-error' : '' }}">
                                 <label for="order">Thứ tự ưu tiên</label>
-                                <input type="text" class="form-control" id="order" name="order" placeholder="Thứ tự ưu tiên"
+                                <input type="text" class="form-control" id="order" name="order"
+                                       placeholder="Thứ tự ưu tiên"
                                        value="{{ $category->order }}">
                                 <span class="help-block">{{ $errors->first('order') }}</span>
                             </div>

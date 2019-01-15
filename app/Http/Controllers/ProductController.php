@@ -28,12 +28,14 @@ class ProductController extends Controller
     }
 
 
-    public function create() {
+    public function create()
+    {
         $data['categories'] = Product::orderBy('name', 'asc')->get();
         return view('admin.products.create', $data);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required',
             'code' => 'required|unique:products,code',
@@ -83,7 +85,7 @@ class ProductController extends Controller
                 if (file_exists(public_path('uploads'))) {
                     $folderName = date('Y-m');
                     $fileNameWithTimestamp = md5($image->getClientOriginalName() . time());
-                    $fileName =  $fileNameWithTimestamp . '.' . $image->getClientOriginalExtension();
+                    $fileName = $fileNameWithTimestamp . '.' . $image->getClientOriginalExtension();
                     $thumbnailFileName = $fileNameWithTimestamp . '_thumb' . '.' . $image->getClientOriginalExtension();
                     if (!file_exists(public_path('uploads/' . $folderName))) {
                         mkdir(public_path('uploads/' . $folderName), 0755);
@@ -96,6 +98,24 @@ class ProductController extends Controller
                         ->save(public_path("uploads/$folderName/$thumbnailFileName"));
                 }
             }
+
+            $attributes = '';
+            if ($request->has('attributes') && is_array($request->input('attributes')) && count($request->input('attributes')) > 0) {
+                $attributes = $request->input('attributes');
+                foreach ($attributes as $key => $attribute) {
+                    if (!isset($attribute['name'])) {
+                        unset($attributes[$key]);
+                        continue;
+                    }
+                    if (!isset($attribute['value'])) {
+                        unset($attributes[$key]);
+                        continue;
+                    }
+                }
+                $attributes = json_encode($attributes);
+            }
+
+
             $product = Product::create([
                 'name' => $request->input('name'),
                 'code' => mb_strtoupper($request->input('code'), 'UTF-8'),
@@ -105,6 +125,7 @@ class ProductController extends Controller
                 'original_price' => $request->input('original_price'),
                 'quantity' => $request->input('quantity'),
                 'image' => $imageName,
+                'attributes' => $attributes,
                 'user_id' => auth()->id(),
                 'category_id' => $request->input('category_id'),
             ]);
@@ -112,7 +133,8 @@ class ProductController extends Controller
         }
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $data['product'] = Product::find($id);
         dd($data['product']->tags);
         if ($data['product'] !== null) {
@@ -121,7 +143,8 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index')->with('error', 'Không tìm thấy sản phẩm này');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $valid = Validator::make($request->all(), [
             'name' => 'required|unique:products,name,' . $id,
             'parent' => 'required'
@@ -151,7 +174,8 @@ class ProductController extends Controller
         }
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $product = Product::find($id);
         if ($product !== null) {
             $product->delete();
