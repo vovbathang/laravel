@@ -16,6 +16,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('head_styles')
 
     <!-- Scripts -->
     <script>
@@ -23,6 +24,7 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+    @yield('head_scripts')
 </head>
 <body>
 <div id="app">
@@ -91,6 +93,10 @@
 </div>
 
 <!-- Scripts -->
+@yield('body_scripts_top')
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+@yield('body_scripts_bottom')
 </body>
 </html>
