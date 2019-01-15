@@ -10,8 +10,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Thêm sản phẩm</div>
                     <div class="panel-body">
-                        <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data"
-                              target="_blank">
+                        <form action="{{ route('admin.product.store') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                                 <label for="name">Tên sản phẩm</label>
@@ -86,6 +85,17 @@
                                 <span class="help-block">{{ $errors->first('category_id') }}</span>
                             </div>
 
+                            <div class="form-group">
+                                <label for="tags" style="display: block">Thẻ Tag</label>
+                                <select name="tags[]" id="tags" class="form-control" multiple style="width: 75%">
+                                    @if (old('tags'))
+                                        @foreach(old('tags') as $tag)
+                                            <option value="{{ $tag }}" selected>{{ $tag }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+
                             <div class="form-group" id="qh-app">
                                 <qh-attributes></qh-attributes>
                             </div>
@@ -98,8 +108,20 @@
         </div>
     </div>
 @endsection
+
+@section('head_styles')
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+@endsection
+
 @section('body_scripts_bottom')
     <script type="text/javascript" src="{{ asset('js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/select2.min.js') }}"></script>
+    <script type="text/javascript">
+        $("#tags").select2({
+            tags: true,
+            tokenSeparators: [',']
+        })
+    </script>
     <script type="text/x-template" id="qh-attributes-template">
         <table class="table table-striped">
             <thead>
