@@ -68,10 +68,36 @@
 
                             <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}">
                                 <label for="image">Hình sản phẩm</label>
-                                <img src="{{ asset('uploads/' . get_thumbnail($product->image)) }}" alt="" class="img-responsive">
+                                <div>
+                                    @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
+                                        <img src="{{ asset(get_thumbnail("uploads/$product->image")) }}" alt="Image" class="img-responsive img-thumbnail">
+                                    @else
+                                        <img src="{{ asset('images/no_image_thumb.jpg') }}" alt="No Image" class="img-responsive img-thumbnail">
+                                    @endif
+                                </div>
+                                <br>
+
                                 <input type="file" class="form-control" id="image" name="image"
                                        value="{{ $product->image }}">
                                 <span class="help-block">{{ $errors->first('image') }}</span>
+                            </div>
+
+                            {{--Upload thư viện hình ảnh--}}
+                            <div class="form-group {{ $errors->has('images.*') ? 'has-error' : '' }}">
+                                <label for="images">Thư viện hình ảnh của sản phẩm</label>
+                                <div>
+                                    @forelse($product->attachments as $file)
+                                        @if (file_exists(public_path(get_thumbnail("uploads/$file->path"))))
+                                            <img src="{{ asset(get_thumbnail("uploads/$file->path")) }}" alt="Image" class="img-responsive img-thumbnail">
+                                        @else
+                                            <img src="{{ asset('images/no_image-200x150.jpg') }}" alt="No Image" class="img-responsive img-thumbnail">
+                                        @endif
+                                    @empty
+                                    @endforelse
+                                </div>
+                                <input type="file" class="form-control" id="images" name="images[]"
+                                       value="{{ old('images') }}" multiple>
+                                <span class="help-block">{{ $errors->first('images.*') }}</span>
                             </div>
 
                             <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
@@ -148,13 +174,16 @@
         Vue.component('qh-attributes', {
             template: '#qh-attributes-template',
             data: function () {
-                var attributes = [
-                    {name: '', value: ''}
-                ];
+                var attributes = null;
                 @if($product->attributes)
                     attributes = {!! $product->attributes !!};
                 @endif
-                    return {
+                if (attributes == null || attributes.length == 0) {
+                    attributes = [
+                        {name: '', value: ''}
+                    ];
+                }
+                return {
                     attributes: attributes
                 };
             },

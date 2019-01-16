@@ -36,7 +36,7 @@ $factory->define(App\Category::class, function (Faker\Generator $faker) {
 $factory->define(App\Tag::class, function (Faker\Generator $faker) {
     $name = $faker->name;
     return [
-        'name' => $name,
+        'name' => str_slug($name),
         'slug' => str_slug($name)
     ];
 });
@@ -55,13 +55,13 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'code' => strtoupper(str_random(6)),
         'content' => $faker->text,
-        'regular_price' => rand(2001, 3000),
-        'sale_price' => rand(1001, 2000),
-        'original_price' => rand(1, 1000),
-        'quantity' => rand(1, 100),
+        'regular_price' => rand(2001,3000),
+        'sale_price' => rand(1001,2000),
+        'original_price' => rand(1,1000),
+        'quantity' => rand(1,100),
         'attributes' => '',
         'image' => '',
-        'user_id' => rand(1, 50),
-        'category_id' => rand(1, 50),
+        'user_id' => rand(1,50),
+        'category_id' => rand(1,50),
     ];
 });

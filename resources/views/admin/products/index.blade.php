@@ -32,7 +32,7 @@
                                     <th>Hình ảnh</th>
                                     <th>Người đăng</th>
                                     <th>Ngày cập nhật</th>
-                                    <th>Chức năng</th>
+                                    <th style="min-width: 150px">Chức năng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -46,26 +46,38 @@
                                         <td>{{ $product->quantity }}</td>
                                         <td>
                                             @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
-                                                <img src="{{ asset(get_thumbnail("uploads/$product->image")) }}" alt="Image" class="img-responsive img-thumbnail">
+                                                <img src="{{ asset(get_thumbnail("uploads/$product->image")) }}"
+                                                     alt="Image" class="img-responsive img-thumbnail">
                                             @else
-                                                <img src="{{ asset('images/no_image.jpg') }}" alt="No Image" class="img-responsive img-thumbnail">
+                                                <img src="{{ asset('images/no_image_thumb.jpg') }}" alt="No Image"
+                                                     class="img-responsive img-thumbnail">
                                             @endif
                                         </td>
                                         <td>{{ $product->user->name }}</td>
                                         <td>{{ $product->updated_at }}</td>
                                         <td>
+                                            <a href="{{ route('admin.product.setFeaturedProduct', ['id' => $product->id]) }}"
+                                               class="btn btn-{{ $product->featured_product ? 'success' : 'default' }}"
+                                               onclick="event.preventDefault();
+                                                       document.getElementById('product-featured-{{ $product->id }}').submit();">
+                                                <i class="glyphicon glyphicon-eye-{{ $product->featured_product ? 'open' : 'close' }}"></i></a>
                                             <a href="{{ route('admin.product.show', ['id' => $product->id]) }}"
-                                               class="btn btn-primary">Sửa</a>
+                                               class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
                                             <a href="{{ route('admin.product.delete', ['id' => $product->id]) }}"
                                                class="btn btn-danger"
                                                onclick="event.preventDefault();
                                                        window.confirm('Bạn đã chắc chắn xóa chưa?') ?
                                                        document.getElementById('product-delete-{{ $product->id }}').submit() :
-                                                       0;">Xóa</a>
+                                                       0;"><i class="glyphicon glyphicon-remove"></i></a>
                                             <form action="{{ route('admin.product.delete', ['id' => $product->id]) }}"
                                                   method="post" id="product-delete-{{ $product->id }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('delete') }}
+                                            </form>
+                                            <form action="{{ route('admin.product.setFeaturedProduct', ['id' => $product->id]) }}"
+                                                  method="post" id="product-featured-{{ $product->id }}">
+                                                {{ csrf_field() }}
+                                                {{ method_field('patch') }}
                                             </form>
                                         </td>
                                     </tr>

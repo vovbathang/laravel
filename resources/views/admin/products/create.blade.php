@@ -71,6 +71,13 @@
                                        value="{{ old('image') }}">
                                 <span class="help-block">{{ $errors->first('image') }}</span>
                             </div>
+                            {{--Upload thư viện hình ảnh--}}
+                            <div class="form-group {{ $errors->has('images.*') ? 'has-error' : '' }}">
+                                <label for="images">Thư viện hình ảnh của sản phẩm</label>
+                                <input type="file" class="form-control" id="images" name="images[]"
+                                       value="{{ old('images') }}" multiple>
+                                <span class="help-block">{{ $errors->first('images.*') }}</span>
+                            </div>
 
                             <div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
                                 <label for="category_id">Chuyên mục cha</label>

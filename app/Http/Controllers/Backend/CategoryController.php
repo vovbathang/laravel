@@ -6,8 +6,9 @@
  * Time: 11:19
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

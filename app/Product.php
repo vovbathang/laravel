@@ -1,47 +1,40 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: thangnguyen
- * Date: 10/01/2019
- * Time: 16:18
- */
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $table = "products";
+    protected $table = 'products';
+
     protected $fillable = [
-        "name",
-        "code",
-        "content",
-        "regular_price",
-        "sale_price",
-        "original_pride",
-        "quantity",
-        "attributes",
-        "image",
-        "user_id",
-        "category_id"
+        'name',
+        'code',
+        'content',
+        'regular_price',
+        'sale_price',
+        'original_price',
+        'quantity',
+        'attributes',
+        'image',
+        'user_id',
+        'category_id'
     ];
 
     public function category()
     {
-        return $this->belongsTo("App\Category", "category_id", "id");
+        return $this->belongsTo('App\Category', 'category_id', 'id');
     }
 
     public function user()
     {
-        return $this->belongsTo("App\User", "user_id", "id");
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
     public function tags()
     {
-        return $this->belongsToMany("App\Tag", "product_tag", "product_id", "tag_id");
-
+        return $this->belongsToMany('App\Tag', 'product_tag', 'product_id', 'tag_id');
     }
 
     public function orders()
@@ -51,4 +44,11 @@ class Product extends Model
             ->withTimestamps();
     }
 
+    public function attachments() {
+        return $this->hasMany('App\Attachment', 'product_id', 'id');
+    }
+
+    public function comments() {
+        return $this->hasMany('App\Comment', 'product_id', 'id');
+    }
 }

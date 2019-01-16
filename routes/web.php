@@ -14,11 +14,8 @@
 // Khong duoc xoa
 Auth::routes();
 
-Route::get('/', function () {
-    return view('frontend.default.master');
-});
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Backend'], function() {
 //    User
     Route::get('/users', 'UserController@index')->name('user.index');
     Route::get('/users/create', 'UserController@create')->name('user.create');
@@ -42,9 +39,44 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/products/{id}', 'ProductController@show')->where('id','[0-9]+')->name('product.show');
     Route::put('/products/{id}', 'ProductController@update')->name('product.update');
     Route::delete('/products/{id}', 'ProductController@delete')->name('product.delete');
+    Route::patch('/products/{id}', 'ProductController@setFeaturedProduct')->name('product.setFeaturedProduct');
+
+//    Order
+    Route::get('/orders', 'OrderController@index')->name('order.index');
+    Route::get('/orders/{id}', 'OrderController@show')->where('id','[0-9]+')->name('order.show');
+    Route::delete('/orders/{id}', 'OrderController@delete')->name('order.delete');
 });
 
-Route::get('/home', 'HomeController@index');
+Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function() {
+//    User
+    Route::get('/', 'HomeController@index')->name('home.index');
+    Route::get('/products/{slug}-{id}.html', 'HomeController@show')->name('home.show')
+        ->where([
+            'slug' => '[a-z-]+',
+            'id' => '[0-9]+'
+        ]);
+    Route::post('/products/{slug}-{id}.html', 'HomeController@comment')->name('home.comment')
+        ->where([
+            'slug' => '[a-z-]+',
+            'id' => '[0-9]+'
+        ]);
+    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::post('/cart', 'CartController@updateCart')->name('cart.updateCart');
+    Route::get('/cart/{id}/delete', 'CartController@deleteCart')->name('cart.deleteCart');
+    Route::get('/cart/deleteAll', 'CartController@deleteAll')->name('cart.deleteAll');
+
+    Route::get('/checkout', 'CheckoutController@index')->name('checkout.index');
+    Route::post('/checkout', 'CheckoutController@placeOrder')->name('checkout.placeOrder');
+    Route::get('/thankyou', 'CheckoutController@thankyou')->name('checkout.thankyou');
+
+});
+
+Route::group(['as' => 'api.', 'prefix' => 'api', 'namespace' => 'Frontend'], function() {
+//    Cart
+    Route::get('/cart', 'CartController@getCart')->name('cart.getCart');
+    Route::post('/cart', 'CartController@addToCart')->name('cart.addToCart');
+
+});
 
 
 
