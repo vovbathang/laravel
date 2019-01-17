@@ -53,6 +53,7 @@
                     &nbsp;<li><a href="{{ route('admin.user.index') }}">User</a></li>
                     &nbsp;<li><a href="{{ route('admin.category.index') }}">Category</a></li>
                     &nbsp;<li><a href="{{ route('admin.product.index') }}">Product</a></li>
+                     <li><a href="{{ route('admin.order.index') }}">Order</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

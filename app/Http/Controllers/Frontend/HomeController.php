@@ -37,15 +37,15 @@ class HomeController extends Controller
         $last7days = date('Y-m-d', time() - 86400 * 7);
         $now = date('Y-m-d', $time);
         $data['best_sellers'] = Product::
-        select('id', 'name', 'code','sale_price', 'image')
+        select('id', 'name', 'code', 'sale_price', 'image')
             ->join(DB::raw('
             (SELECT product_id, SUM(quantity) sum_quantity FROM product_order 
             WHERE DATE(updated_at) BETWEEN ? AND ?
             GROUP BY product_id
             ORDER BY sum_quantity DESC
             LIMIT 7) best_sellers
-            '), function($join) {
-                $join->on('products.id','=', 'best_sellers.product_id');
+            '), function ($join) {
+                $join->on('products.id', '=', 'best_sellers.product_id');
             })
             ->addBinding([$last7days, $now])
             ->get();

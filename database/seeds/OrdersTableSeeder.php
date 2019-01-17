@@ -12,6 +12,27 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 50)->create();
+        factory(Order::class, 50)->create()->each(function($order) {
+            //            Order
+            $arr = [];
+            for ($i = 0; $i <= rand(0,2); $i++) {
+                if ($i == 0) {
+                    $arr[rand(1,15)] = [
+                        'quantity' => rand(1,99)
+                    ];
+                }
+                if ($i == 1) {
+                    $arr[rand(16,35)] = [
+                        'quantity' => rand(1,99)
+                    ];
+                }
+                if ($i == 2) {
+                    $arr[rand(36,50)] = [
+                        'quantity' => rand(1,99)
+                    ];
+                }
+            }
+            $order->products()->sync($arr);
+        });
     }
 }

@@ -44,6 +44,7 @@ $factory->define(App\Tag::class, function (Faker\Generator $faker) {
 $factory->define(App\Order::class, function (Faker\Generator $faker) {
     return [
         'user_id' => rand(1,50),
+        'name'=> $faker->name,
         'address' => $faker->text(80),
         'email' => $faker->email,
         'phone' => $faker->phoneNumber

@@ -9,6 +9,8 @@
     <meta name="author" content="">
     <meta name="keywords" content="MediaCenter, Template, eCommerce">
     <meta name="robots" content="all">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>MediaCenter - Responsive eCommerce Template</title>
 
@@ -38,18 +40,23 @@
     <script src="{{ asset('themes/default/assets/js/html5shiv.js') }}"></script>
     <script src="{{ asset('themes/default/assets/js/respond.min.js') }}"></script>
     <![endif]-->
-
+    <script>
+        window.QHO = {
+            csrf: '{{ csrf_token() }}',
+            baseUrl: '{{ url('/') }}'
+        };
+    </script>
 
 </head>
 <body>
 
-<div class="wrapper">
+<div class="wrapper" id="app">
     <!-- ============================================================= TOP NAVIGATION ============================================================= -->
     <nav class="top-bar animate-dropdown">
         <div class="container">
             <div class="col-xs-12 col-sm-6 no-margin">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{{ route('frontend.home.index') }}">Home</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#change-colors">Change Colors</a>
 
@@ -74,7 +81,7 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#pages">Pages</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="{{ route('frontend.home.index') }}">Home</a></li>
                             <li><a href="index-2.html">Home Alt</a></li>
                             <li><a href="category-grid.html">Category - Grid/List</a></li>
                             <li><a href="category-grid-2.html">Category 2 - Grid/List</a></li>
@@ -124,13 +131,13 @@
     </nav><!-- /.top-bar -->
     <!-- ============================================================= TOP NAVIGATION : END ============================================================= -->
     <!-- ============================================================= HEADER ============================================================= -->
-    <header>
+    <header class="{{ Route::currentRouteName() !== 'frontend.home.index' ? 'no-padding-bottom header-alt' : '' }}">
         <div class="container no-padding">
 
             <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
                 <!-- ============================================================= LOGO ============================================================= -->
                 <div class="logo">
-                    <a href="index.html">
+                    <a href="{{ route('frontend.home.index') }}">
                     <!--<img alt="logo" src="{{ asset('themes/default/assets/images/logo.svg') }}" width="233" height="54"/>-->
                     <!--<object id="sp" type="image/svg+xml" data="{{ asset('themes/default/assets/images/logo.svg') }}" width="233" height="54"></object>-->
                         <svg width="233px" height="54px" viewBox="0 0 233 54" version="1.1"
@@ -222,14 +229,14 @@
 
             <div class="col-xs-12 col-sm-12 col-md-3 top-cart-row no-margin">
                 <div class="top-cart-row-container">
-                    <div class="wishlist-compare-holder">
-                        <div class="wishlist ">
-                            <a href="#"><i class="fa fa-heart"></i> wishlist <span class="value">(21)</span> </a>
-                        </div>
-                        <div class="compare">
-                            <a href="#"><i class="fa fa-exchange"></i> compare <span class="value">(2)</span> </a>
-                        </div>
-                    </div>
+                    {{--<div class="wishlist-compare-holder">--}}
+                        {{--<div class="wishlist ">--}}
+                            {{--<a href="#"><i class="fa fa-heart"></i> wishlist <span class="value">(21)</span> </a>--}}
+                        {{--</div>--}}
+                        {{--<div class="compare">--}}
+                            {{--<a href="#"><i class="fa fa-exchange"></i> compare <span class="value">(2)</span> </a>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
                     <div class="top-cart-holder dropdown animate-dropdown">
@@ -238,67 +245,31 @@
 
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <div class="basket-item-count">
-                                    <span class="count">3</span>
+                                    <span class="count" v-text="total">0</span>
                                     <img src="{{ asset('themes/default/assets/images/icon-cart.png') }}" alt=""/>
                                 </div>
 
                                 <div class="total-price-basket">
                                     <span class="lbl">your cart:</span>
                                     <span class="total-price">
-                        <span class="sign">$</span><span class="value">3219,00</span>
+                        <span class="value" v-text="sumPrice">0</span><span class="sign"> Đ</span>
                     </span>
                                 </div>
                             </a>
 
                             <ul class="dropdown-menu">
-                                <li>
-                                    <div class="basket-item">
-                                        <div class="row">
-                                            <div class="col-xs-4 col-sm-4 no-margin text-center">
-                                                <div class="thumb">
-                                                    <img alt=""
-                                                         src="{{ asset('themes/default/assets/images/products/product-small-01.jpg') }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-8 col-sm-8 no-margin">
-                                                <div class="title">Blueberry</div>
-                                                <div class="price">$270.00</div>
-                                            </div>
-                                        </div>
-                                        <a class="close-btn" href="#"></a>
-                                    </div>
-                                </li>
 
-                                <li>
+                                <li v-for="(product, key) in cart">
                                     <div class="basket-item">
                                         <div class="row">
                                             <div class="col-xs-4 col-sm-4 no-margin text-center">
                                                 <div class="thumb">
-                                                    <img alt=""
-                                                         src="{{ asset('themes/default/assets/images/products/product-small-01.jpg') }}"/>
+                                                    <img alt="" :src="product.image"/>
                                                 </div>
                                             </div>
                                             <div class="col-xs-8 col-sm-8 no-margin">
-                                                <div class="title">Blueberry</div>
-                                                <div class="price">$270.00</div>
-                                            </div>
-                                        </div>
-                                        <a class="close-btn" href="#"></a>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="basket-item">
-                                        <div class="row">
-                                            <div class="col-xs-4 col-sm-4 no-margin text-center">
-                                                <div class="thumb">
-                                                    <img alt=""
-                                                         src="{{ asset('themes/default/assets/images/products/product-small-01.jpg') }}"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-8 col-sm-8 no-margin">
-                                                <div class="title">Blueberry</div>
-                                                <div class="price">$270.00</div>
+                                                <div class="title" v-text="product.name"></div>
+                                                <div class="price" v-text="product.quantity + ' x ' +product.price + 'Đ'">0</div>
                                             </div>
                                         </div>
                                         <a class="close-btn" href="#"></a>
@@ -310,10 +281,10 @@
                                     <div class="basket-item">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
-                                                <a href="cart.html" class="le-button inverse">View cart</a>
+                                                <a href="{{ route('frontend.cart.index') }}" class="le-button inverse">Giỏ hàng</a>
                                             </div>
                                             <div class="col-xs-12 col-sm-6">
-                                                <a href="checkout.html" class="le-button">Checkout</a>
+                                                <a href="{{ route('frontend.checkout.index') }}" class="le-button">Checkout</a>
                                             </div>
                                         </div>
                                     </div>
@@ -1067,7 +1038,7 @@
             <div class="container">
                 <div class="col-xs-12 col-sm-6 no-margin">
                     <div class="copyright">
-                        &copy; <a href="index.html">Media Center</a> - all rights reserved
+                        &copy; <a href="{{ route('frontend.home.index') }}">Media Center</a> - all rights reserved
                     </div><!-- /.copyright -->
                 </div>
                 <div class="col-xs-12 col-sm-6 no-margin">
@@ -1110,7 +1081,60 @@
 <script src="{{ asset('themes/default/assets/js/wow.min.js') }}"></script>
 <script src="{{ asset('themes/default/assets/js/scripts.js') }}"></script>
 @yield('body_scripts')
+<script type="text/javascript" src="{{ asset('js/vue.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/axios.min.js') }}"></script>
+<script type="text/javascript">
+    axios.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest'
+    };
+    new Vue({
+        el: '#app',
+        data: {
+            cart: {},
+            total: 0,
+            sumPrice: 0,
+            quantity: 1
+        },
+        methods: {
+            addToCart: function (id, event, isSingle) {
+                isSingle = isSingle || false;
+                event.preventDefault();
 
+                if (!isSingle) {
+                    this.quantity = 1;
+                }
+
+                var vm = this;
+                axios.post('{{ route('api.cart.addToCart') }}', {
+                    id: id,
+                    quantity: vm.quantity
+                }).then(function (response) {
+                    vm.cart = response && response.data && response.data.cart;
+                    vm.total = response && response.data && response.data.total;
+                    vm.sumPrice = response && response.data && response.data.sumPrice;
+                });
+            },
+            getCart: function () {
+                var vm = this;
+                axios.get('{{ route('api.cart.getCart') }}')
+                    .then(function (response) {
+                        vm.cart = response && response.data && response.data.cart;
+                        vm.total = response && response.data && response.data.total;
+                        vm.sumPrice = response && response.data && response.data.sumPrice;
+                    });
+            },
+            addQuantity: function() {
+                this.quantity += 1;
+            },
+            subtractQuantity: function() {
+                this.quantity -= 1;
+            }
+        },
+        mounted: function() {
+            this.getCart();
+        }
+    });
+</script>
 
 </body>
 </html>
