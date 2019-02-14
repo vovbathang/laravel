@@ -97,8 +97,6 @@ class ProductController extends Controller
             }
 
 
-
-
 //            Thêm Attributes
             $attributes = null;
             if ($request->has('attributes') && is_array($request->input('attributes')) && count($request->input('attributes')) > 0) {
@@ -317,7 +315,8 @@ class ProductController extends Controller
         return redirect()->route('admin.product.index')->with('error', 'Không tìm thấy sản phẩm này');
     }
 
-    public function setFeaturedProduct($id) {
+    public function setFeaturedProduct($id)
+    {
         $product = Product::find($id);
         if ($product !== null) {
             $product->featured_product = !$product->featured_product;
@@ -328,7 +327,8 @@ class ProductController extends Controller
     }
 
 
-    public function saveImage($image) {
+    public function saveImage($image)
+    {
         if (!empty($image) && file_exists(public_path('uploads'))) {
             $folderName = date('Y-m');
             $fileNameWithTimestamp = md5($image->getClientOriginalName() . time());
@@ -341,7 +341,7 @@ class ProductController extends Controller
             $image->move(public_path('uploads/' . $folderName), $fileName);
 
 //            Tạo các hình ảnh theo tỉ lệ giao diện
-            $createImage = function($suffix = '_thumb', $width = 250, $height = 170) use($folderName, $fileName, $fileNameWithTimestamp, $image) {
+            $createImage = function ($suffix = '_thumb', $width = 250, $height = 170) use ($folderName, $fileName, $fileNameWithTimestamp, $image) {
                 $thumbnailFileName = $fileNameWithTimestamp . $suffix . '.' . $image->getClientOriginalExtension();
                 Image::make(public_path("uploads/$folderName/$fileName"))
                     ->resize($width, $height)
@@ -356,10 +356,11 @@ class ProductController extends Controller
         }
     }
 
-    public function deleteImage($path) {
+    public function deleteImage($path)
+    {
         if (!is_dir(public_path('uploads/' . $path)) && file_exists(public_path('uploads/' . $path))) {
             unlink(public_path('uploads/' . $path));
-            $deleteAllImages = function($sizeArr) use($path) {
+            $deleteAllImages = function ($sizeArr) use ($path) {
                 foreach ($sizeArr as $size) {
                     if (!is_dir(public_path('uploads/' . get_thumbnail($path, $size))) && file_exists(public_path('uploads/' . get_thumbnail($path, $size)))) {
                         unlink(public_path('uploads/' . get_thumbnail($path, $size)));

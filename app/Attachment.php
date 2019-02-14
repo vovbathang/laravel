@@ -13,7 +13,8 @@ class Attachment extends Model
         'product_id'
     ];
 
-    public function product() {
+    public function product()
+    {
         return $this->belongsTo('App\Product', 'product_id', 'id');
     }
 }

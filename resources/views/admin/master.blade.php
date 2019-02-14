@@ -16,9 +16,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @yield('head_styles')
+@yield('head_styles')
 
-    <!-- Scripts -->
+<!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -53,7 +53,7 @@
                     &nbsp;<li><a href="{{ route('admin.user.index') }}">User</a></li>
                     &nbsp;<li><a href="{{ route('admin.category.index') }}">Category</a></li>
                     &nbsp;<li><a href="{{ route('admin.product.index') }}">Product</a></li>
-                     <li><a href="{{ route('admin.order.index') }}">Order</a></li>
+                    <li><a href="{{ route('admin.order.index') }}">Order</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -95,8 +95,8 @@
 
 <!-- Scripts -->
 @yield('body_scripts_top')
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+{{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+<script src="{{ asset('js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 @yield('body_scripts_bottom')
 </body>

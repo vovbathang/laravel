@@ -63,7 +63,7 @@ class HomeController extends Controller
     {
         $data['product'] = Product::find($id);
 
-        $recent_products = is_array($request->cookie('recent_products')) ? $request->cookie('recent_products') : [];
+        /*$recent_products = is_array($request->cookie('recent_products')) ? $request->cookie('recent_products') : [];
         if (!in_array($data['product']->id, $recent_products)) {
             array_unshift($recent_products, $data['product']->id);
             if (count($recent_products) > 6) {
@@ -74,9 +74,9 @@ class HomeController extends Controller
         $data['recent_products'] = [];
         if (is_array($recent_products)) {
             $data['recent_products'] = Product::whereIn('id', $recent_products)->limit(6)->get();
-        }
+        }*/
 
-        return response()->view('frontend.default.single-product', $data)->cookie($cookie);
+        return view('frontend.default.single-product', $data);
     }
 
     public function comment(Request $request, $slug, $id)

@@ -84,7 +84,8 @@
                     <div class="star-holder inline">
                         <div class="star" data-score="{{ floor($product->comments()->avg('rating')) }}"></div>
                     </div>
-                    <div class="availability"><label>Tình trạng:</label><span class="{{ $product->quantity > 0 ? 'available' : 'not-available' }}">  {{ $product->quantity > 0 ? 'Còn hàng' : 'Hết hàng' }}</span>
+                    <div class="availability"><label>Tình trạng:</label><span
+                                class="{{ $product->quantity > 0 ? 'available' : 'not-available' }}">  {{ $product->quantity > 0 ? 'Còn hàng' : 'Hết hàng' }}</span>
                     </div>
 
                     <div class="title"><a href="#">{{ $product->name }}</a></div>
@@ -120,7 +121,8 @@
                                 <a class="plus" href="#add" v-on:click="addQuantity"></a>
                             </form>
                         </div>
-                        <a id="addto-cart" href="cart.html" class="le-button huge"  v-on:click="addToCart({{ $product->id }}, $event, true)">Thêm giỏ hàng</a>
+                        <a id="addto-cart" href="cart.html" class="le-button huge"
+                           v-on:click="addToCart({{ $product->id }}, $event, true)">Thêm giỏ hàng</a>
                     </div><!-- /.qnt-holder -->
                 </div><!-- /.body -->
 
@@ -236,37 +238,37 @@
                     <div class="tab-pane" id="reviews">
                         <div class="comments">
                             @forelse($product->comments as $comment)
-                            <div class="comment-item">
-                                <div class="row no-margin">
-                                    <div class="col-lg-1 col-xs-12 col-sm-2 no-margin">
-                                        <div class="avatar">
-                                            <img alt="avatar"
-                                                 src="{{ asset('themes/default/assets/images/default-avatar.jpg') }}">
-                                        </div><!-- /.avatar -->
-                                    </div><!-- /.col -->
+                                <div class="comment-item">
+                                    <div class="row no-margin">
+                                        <div class="col-lg-1 col-xs-12 col-sm-2 no-margin">
+                                            <div class="avatar">
+                                                <img alt="avatar"
+                                                     src="{{ asset('themes/default/assets/images/default-avatar.jpg') }}">
+                                            </div><!-- /.avatar -->
+                                        </div><!-- /.col -->
 
-                                    <div class="col-xs-12 col-lg-11 col-sm-10 no-margin">
-                                        <div class="comment-body">
-                                            <div class="meta-info">
-                                                <div class="author inline">
-                                                    <a href="#" class="bold">{{ $comment->name }}</a>
-                                                </div>
-                                                <div class="star-holder inline">
-                                                    <div class="star" data-score="{{ $comment->rating }}"></div>
-                                                </div>
-                                                <div class="date inline pull-right">
-                                                    {{ $comment->created_at->diffForHumans() }}
-                                                </div>
-                                            </div><!-- /.meta-info -->
-                                            <p class="comment-text">
-                                                {{ $comment->content }}
-                                            </p><!-- /.comment-text -->
-                                        </div><!-- /.comment-body -->
+                                        <div class="col-xs-12 col-lg-11 col-sm-10 no-margin">
+                                            <div class="comment-body">
+                                                <div class="meta-info">
+                                                    <div class="author inline">
+                                                        <a href="#" class="bold">{{ $comment->name }}</a>
+                                                    </div>
+                                                    <div class="star-holder inline">
+                                                        <div class="star" data-score="{{ $comment->rating }}"></div>
+                                                    </div>
+                                                    <div class="date inline pull-right">
+                                                        {{ $comment->created_at->diffForHumans() }}
+                                                    </div>
+                                                </div><!-- /.meta-info -->
+                                                <p class="comment-text">
+                                                    {{ $comment->content }}
+                                                </p><!-- /.comment-text -->
+                                            </div><!-- /.comment-body -->
 
-                                    </div><!-- /.col -->
+                                        </div><!-- /.col -->
 
-                                </div><!-- /.row -->
-                            </div><!-- /.comment-item -->
+                                    </div><!-- /.row -->
+                                </div><!-- /.comment-item -->
                             @empty
                                 <div>Không có đánh giá nào</div>
                             @endforelse
@@ -340,49 +342,7 @@
                 </div><!-- /.title-nav -->
 
                 <div id="owl-recently-viewed" class="owl-carousel product-grid-holder">
-                    @foreach($recent_products as $product)
-                        <div class="no-margin carousel-item product-item-holder size-small hover">
-                            <div class="product-item">
-                                <div class="image">
-                                    @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
-                                        <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                             data-echo="{{ asset(get_thumbnail("uploads/$product->image")) }}"
-                                             alt="Image">
-                                    @else
-                                        <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                             data-echo="{{ asset('images/no_image_thumb.jpg') }}"
-                                             alt="No Image">
-                                    @endif
-                                </div>
-                                <div class="body">
-                                    {{--<div class="label-discount green">-50% sale</div>--}}
-                                    <div class="title">
-                                        <a href="{{ route('frontend.home.show', ['slug' => str_slug($product->name), 'id' => $product->id]) }}">{{ $product->name }}</a>
-                                    </div>
-                                    <div class="brand">{{ $product->code }}</div>
-                                </div>
-                                <div class="prices">
-                                    <div class="price-prev">{{ number_format($product->regular_price, 0, ',', '.') }}
-                                        VND
-                                    </div>
-                                    <div class="price-current pull-right">{{ number_format($product->sale_price, 0, ',', '.') }}
-                                        VND
-                                    </div>
-                                </div>
 
-                                <div class="hover-area">
-                                    <div class="add-cart-button">
-                                        <a href="#" class="le-button"
-                                           v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
-                                    </div>
-                                    {{--<div class="wish-compare">--}}
-                                    {{--<a class="btn-add-to-wishlist" href="#">add to wishlist</a>--}}
-                                    {{--<a class="btn-add-to-compare" href="#">compare</a>--}}
-                                    {{--</div>--}}
-                                </div>
-                            </div><!-- /.product-item -->
-                        </div><!-- /.product-item-holder -->
-                    @endforeach
                 </div><!-- /#recently-carousel -->
 
             </div><!-- /.carousel-holder -->
