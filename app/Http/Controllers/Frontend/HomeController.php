@@ -8,6 +8,8 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Cookie\CookieJar;
 
 class HomeController extends Controller
 {
@@ -37,15 +39,15 @@ class HomeController extends Controller
         $last7days = date('Y-m-d', time() - 86400 * 7);
         $now = date('Y-m-d', $time);
         $data['best_sellers'] = Product::
-        select('id', 'name', 'code', 'sale_price', 'image')
+        select('id', 'name', 'code','sale_price', 'image')
             ->join(DB::raw('
             (SELECT product_id, SUM(quantity) sum_quantity FROM product_order 
             WHERE DATE(updated_at) BETWEEN ? AND ?
             GROUP BY product_id
             ORDER BY sum_quantity DESC
             LIMIT 7) best_sellers
-            '), function ($join) {
-                $join->on('products.id', '=', 'best_sellers.product_id');
+            '), function($join) {
+                $join->on('products.id','=', 'best_sellers.product_id');
             })
             ->addBinding([$last7days, $now])
             ->get();
@@ -63,20 +65,23 @@ class HomeController extends Controller
     {
         $data['product'] = Product::find($id);
 
-        /*$recent_products = is_array($request->cookie('recent_products')) ? $request->cookie('recent_products') : [];
+        $recent_products = is_array($request->cookie('recent_products')) ? $request->cookie('recent_products') : [];
         if (!in_array($data['product']->id, $recent_products)) {
             array_unshift($recent_products, $data['product']->id);
             if (count($recent_products) > 6) {
                 $recent_products = array_slice($recent_products, 0, 6);
             }
         }
-        $cookie = cookie('recent_products', $recent_products, 1440);
+
+        $cookies = cookie('recent_products', $recent_products, 1400);
+
         $data['recent_products'] = [];
         if (is_array($recent_products)) {
             $data['recent_products'] = Product::whereIn('id', $recent_products)->limit(6)->get();
-        }*/
+        }
 
-        return view('frontend.default.single-product', $data);
+        return response()->view('frontend.default.single-product', $data);
+
     }
 
     public function comment(Request $request, $slug, $id)

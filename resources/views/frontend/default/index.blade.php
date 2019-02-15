@@ -633,149 +633,149 @@
     </div>
     <!-- ========================================= BEST SELLERS ========================================= -->
     @if (count($best_sellers) >= 7)
-    <section id="bestsellers" class="color-bg wow fadeInUp">
-        <div class="container">
-            <h1 class="section-title">Best Sellers</h1>
+        <section id="bestsellers" class="color-bg wow fadeInUp">
+            <div class="container">
+                <h1 class="section-title">Best Sellers</h1>
 
-            <div class="product-grid-holder medium">
-                <div class="col-xs-12 col-md-7 no-margin">
-                    @php
-                        $count = 0;
-                    @endphp
-                    @foreach($best_sellers as $product)
+                <div class="product-grid-holder medium">
+                    <div class="col-xs-12 col-md-7 no-margin">
                         @php
-                            $count++;
+                            $count = 0;
                         @endphp
-                        @if ($count === 2 || $count === 5)
-                            <div class="row no-margin">
-                                @endif
-                                @if ($count !== 1)
-                                <div class="col-xs-12 col-sm-4 no-margin product-item-holder size-medium hover">
-                                    <div class="product-item">
-                                        <div class="image">
-                                            @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
-                                                <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                                     data-echo="{{ asset(get_thumbnail("uploads/$product->image")) }}"
-                                                     alt="Image">
+                        @foreach($best_sellers as $product)
+                            @php
+                                $count++;
+                            @endphp
+                            @if ($count === 2 || $count === 5)
+                                <div class="row no-margin">
+                                    @endif
+                                    @if ($count !== 1)
+                                        <div class="col-xs-12 col-sm-4 no-margin product-item-holder size-medium hover">
+                                            <div class="product-item">
+                                                <div class="image">
+                                                    @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
+                                                        <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
+                                                             data-echo="{{ asset(get_thumbnail("uploads/$product->image")) }}"
+                                                             alt="Image">
+                                                    @else
+                                                        <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
+                                                             data-echo="{{ asset('images/no_image_thumb.jpg') }}"
+                                                             alt="No Image">
+                                                    @endif
+                                                </div>
+                                                <div class="body">
+                                                    {{--<div class="label-discount green">-50% sale</div>--}}
+                                                    <div class="title">
+                                                        <a href="{{ route('frontend.home.show', ['slug' => str_slug($product->name), 'id' => $product->id]) }}">{{ $product->name }}</a>
+                                                    </div>
+                                                    <div class="brand">{{ $product->code }}</div>
+                                                </div>
+                                                <div class="prices">
+                                                    <div class="price-current text-right">{{ number_format($product->sale_price, 0, ',', '.') }}
+                                                        VND
+                                                    </div>
+                                                </div>
+
+                                                <div class="hover-area">
+                                                    <div class="add-cart-button">
+                                                        <a href="#" class="le-button"
+                                                           v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
+                                                    </div>
+                                                    {{--<div class="wish-compare">--}}
+                                                    {{--<a class="btn-add-to-wishlist" href="#">add to wishlist</a>--}}
+                                                    {{--<a class="btn-add-to-compare" href="#">compare</a>--}}
+                                                    {{--</div>--}}
+                                                </div>
+                                            </div>
+                                        </div><!-- /.product-item-holder -->
+                                    @endif
+                                    @if ($count === 4 || $count == 7)
+                                </div><!-- /.row -->
+                            @endif
+                        @endforeach
+
+                    </div><!-- /.col -->
+                    @foreach($best_sellers as $product)
+                        <div class="col-xs-12 col-md-5 no-margin">
+                            <div class="product-item-holder size-big single-product-gallery small-gallery">
+
+                                <div id="best-seller-single-product-slider" class="single-product-slider owl-carousel">
+                                    @forelse($product->attachments as $key => $file)
+                                        <div class="single-product-gallery-item" id="slide-{{ $key }}">
+                                            @if (file_exists(public_path(get_thumbnail("uploads/" . $file->path, '_450x337' ))))
+                                                <a data-rel="prettyphoto"
+                                                   href="{{ asset('uploads/' . get_thumbnail($file->path, '_450x337')) }}">
+                                                    <img class="img-responsive" alt=""
+                                                         src="{{ asset('themes/default/assets/images/blank.gif') }}"
+                                                         data-echo="{{ asset('uploads/' . get_thumbnail($file->path, '_450x337')) }}"/>
+                                                </a>
                                             @else
-                                                <img src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                                     data-echo="{{ asset('images/no_image_thumb.jpg') }}"
-                                                     alt="No Image">
-                                            @endif
-                                        </div>
-                                        <div class="body">
-                                            {{--<div class="label-discount green">-50% sale</div>--}}
-                                            <div class="title">
-                                                <a href="{{ route('frontend.home.show', ['slug' => str_slug($product->name), 'id' => $product->id]) }}">{{ $product->name }}</a>
-                                            </div>
-                                            <div class="brand">{{ $product->code }}</div>
-                                        </div>
-                                        <div class="prices">
-                                            <div class="price-current text-right">{{ number_format($product->sale_price, 0, ',', '.') }}
-                                                VND
-                                            </div>
-                                        </div>
-
-                                        <div class="hover-area">
-                                            <div class="add-cart-button">
-                                                <a href="#" class="le-button"
-                                                   v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
-                                            </div>
-                                            {{--<div class="wish-compare">--}}
-                                            {{--<a class="btn-add-to-wishlist" href="#">add to wishlist</a>--}}
-                                            {{--<a class="btn-add-to-compare" href="#">compare</a>--}}
-                                            {{--</div>--}}
-                                        </div>
-                                    </div>
-                                </div><!-- /.product-item-holder -->
-                                @endif
-                            @if ($count === 4 || $count == 7)
-                            </div><!-- /.row -->
-                        @endif
-                            @endforeach
-
-                </div><!-- /.col -->
-                @foreach($best_sellers as $product)
-                <div class="col-xs-12 col-md-5 no-margin">
-                    <div class="product-item-holder size-big single-product-gallery small-gallery">
-
-                        <div id="best-seller-single-product-slider" class="single-product-slider owl-carousel">
-                            @forelse($product->attachments as $key => $file)
-                                <div class="single-product-gallery-item" id="slide-{{ $key }}">
-                                    @if (file_exists(public_path(get_thumbnail("uploads/" . $file->path, '_450x337' ))))
-                                        <a data-rel="prettyphoto"
-                                           href="{{ asset('uploads/' . get_thumbnail($file->path, '_450x337')) }}">
-                                            <img class="img-responsive" alt=""
-                                                 src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                                 data-echo="{{ asset('uploads/' . get_thumbnail($file->path, '_450x337')) }}"/>
-                                        </a>
-                                    @else
-                                        <img src="{{ asset('images/no_image.jpg') }}" alt="No Image"
-                                             class="img-responsive">
-                                    @endif
-
-                                </div><!-- /.single-product-gallery-item -->
-                            @empty
-                                <div class="single-product-gallery-item" id="slide-0">
-                                    @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
-                                        <a data-rel="prettyphoto"
-                                           href="{{ asset('uploads/' . get_thumbnail($product->image, '_450x337')) }}">
-                                            <img class="img-responsive" alt=""
-                                                 src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                                 data-echo="{{ asset('uploads/' . get_thumbnail($product->image, '_450x337')) }}"/>
-                                        </a>
-                                    @else
-                                        <img src="{{ asset('images/no_image.jpg') }}" alt="No Image"
-                                             class="img-responsive">
-                                    @endif
-
-                                </div><!-- /.single-product-gallery-item -->
-                            @endforelse
-                        </div><!-- /.single-product-slider -->
-
-                        <div class="gallery-thumbs clearfix">
-                            <ul>
-                                @forelse($product->attachments as $key => $file)
-                                    @if (file_exists(public_path(get_thumbnail("uploads/" . $file->path, '_80x80' ))))
-                                        <li><a class="horizontal-thumb active" data-target="#best-seller-single-product-slider"
-                                           data-slide="{{ $key }}"
-                                           href="#slide-{{ $key }}">
-                                            <img class="img-responsive" alt=""
-                                                 src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                                                 data-echo="{{ asset('uploads/' . get_thumbnail($file->path, '_80x80')) }}"/>
-                                        </a></li>
-                                    @else
-                                        <li>
-                                            <a href="#" class="horizontal-thumb">
                                                 <img src="{{ asset('images/no_image.jpg') }}" alt="No Image"
                                                      class="img-responsive">
-                                            </a>
-                                        </li>
-                                    @endif
-                                @empty
-                                @endforelse
+                                            @endif
 
-                            </ul>
-                        </div><!-- /.gallery-thumbs -->
+                                        </div><!-- /.single-product-gallery-item -->
+                                    @empty
+                                        <div class="single-product-gallery-item" id="slide-0">
+                                            @if (!empty($product->image) && file_exists(public_path(get_thumbnail("uploads/$product->image"))))
+                                                <a data-rel="prettyphoto"
+                                                   href="{{ asset('uploads/' . get_thumbnail($product->image, '_450x337')) }}">
+                                                    <img class="img-responsive" alt=""
+                                                         src="{{ asset('themes/default/assets/images/blank.gif') }}"
+                                                         data-echo="{{ asset('uploads/' . get_thumbnail($product->image, '_450x337')) }}"/>
+                                                </a>
+                                            @else
+                                                <img src="{{ asset('images/no_image.jpg') }}" alt="No Image"
+                                                     class="img-responsive">
+                                            @endif
 
-                        <div class="body">
-                            <div class="label-discount clear"></div>
-                            <div class="title">
-                                <a href="{{ route('frontend.home.show', ['slug' => str_slug($product->name), 'id' => $product->id]) }}">{{ $product->name }}</a>
-                            </div>
-                            <div class="brand">{{ $product->code }}</div>
-                        </div>
-                        <div class="prices text-right">
-                            <div class="price-current inline">{{ number_format($product->sale_price, 0, ',', '.') }} VND</div>
-                            <a href="#" class="le-button big inline" v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
-                        </div>
-                    </div><!-- /.product-item-holder -->
-                </div><!-- /.col -->
-                    @break
-                @endforeach
-            </div><!-- /.product-grid-holder -->
-        </div><!-- /.container -->
-    </section><!-- /#bestsellers -->
+                                        </div><!-- /.single-product-gallery-item -->
+                                    @endforelse
+                                </div><!-- /.single-product-slider -->
+
+                                <div class="gallery-thumbs clearfix">
+                                    <ul>
+                                        @forelse($product->attachments as $key => $file)
+                                            @if (file_exists(public_path(get_thumbnail("uploads/" . $file->path, '_80x80' ))))
+                                                <li><a class="horizontal-thumb active" data-target="#best-seller-single-product-slider"
+                                                       data-slide="{{ $key }}"
+                                                       href="#slide-{{ $key }}">
+                                                        <img class="img-responsive" alt=""
+                                                             src="{{ asset('themes/default/assets/images/blank.gif') }}"
+                                                             data-echo="{{ asset('uploads/' . get_thumbnail($file->path, '_80x80')) }}"/>
+                                                    </a></li>
+                                            @else
+                                                <li>
+                                                    <a href="#" class="horizontal-thumb">
+                                                        <img src="{{ asset('images/no_image.jpg') }}" alt="No Image"
+                                                             class="img-responsive">
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @empty
+                                        @endforelse
+
+                                    </ul>
+                                </div><!-- /.gallery-thumbs -->
+
+                                <div class="body">
+                                    <div class="label-discount clear"></div>
+                                    <div class="title">
+                                        <a href="{{ route('frontend.home.show', ['slug' => str_slug($product->name), 'id' => $product->id]) }}">{{ $product->name }}</a>
+                                    </div>
+                                    <div class="brand">{{ $product->code }}</div>
+                                </div>
+                                <div class="prices text-right">
+                                    <div class="price-current inline">{{ number_format($product->sale_price, 0, ',', '.') }} VND</div>
+                                    <a href="#" class="le-button big inline" v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
+                                </div>
+                            </div><!-- /.product-item-holder -->
+                        </div><!-- /.col -->
+                        @break
+                    @endforeach
+                </div><!-- /.product-grid-holder -->
+            </div><!-- /.container -->
+        </section><!-- /#bestsellers -->
     @endif
     <!-- ========================================= BEST SELLERS : END ========================================= -->
     <!-- ========================================= RECENTLY VIEWED ========================================= -->

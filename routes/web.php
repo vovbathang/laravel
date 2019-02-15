@@ -79,7 +79,6 @@ Route::group(['as' => 'api.', 'prefix' => 'api', 'namespace' => 'Frontend'], fun
 });
 
 
-
 //Route::get('/users/{id}/abc/{name}', 'UserController@show')->where([
 //    'id' => '[0-9]+',
 //    'name' => '[a-zA-Z]+'
