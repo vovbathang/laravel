@@ -28,8 +28,10 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <ul class="list-unstyled">
-                                                    <li><a href="{{ route('frontend.cart.index') }}">Shopping Cart</a></li>
-                                                    <li><a href="{{ route('frontend.checkout.index') }}">Checkout</a></li>
+                                                    <li><a href="{{ route('frontend.cart.index') }}">Shopping Cart</a>
+                                                    </li>
+                                                    <li><a href="{{ route('frontend.checkout.index') }}">Checkout</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             <div class="col-md-4">
@@ -679,7 +681,8 @@
                                                 <div class="hover-area">
                                                     <div class="add-cart-button">
                                                         <a href="#" class="le-button"
-                                                           v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
+                                                           v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ
+                                                            hàng</a>
                                                     </div>
                                                     {{--<div class="wish-compare">--}}
                                                     {{--<a class="btn-add-to-wishlist" href="#">add to wishlist</a>--}}
@@ -737,7 +740,8 @@
                                     <ul>
                                         @forelse($product->attachments as $key => $file)
                                             @if (file_exists(public_path(get_thumbnail("uploads/" . $file->path, '_80x80' ))))
-                                                <li><a class="horizontal-thumb active" data-target="#best-seller-single-product-slider"
+                                                <li><a class="horizontal-thumb active"
+                                                       data-target="#best-seller-single-product-slider"
                                                        data-slide="{{ $key }}"
                                                        href="#slide-{{ $key }}">
                                                         <img class="img-responsive" alt=""
@@ -766,8 +770,11 @@
                                     <div class="brand">{{ $product->code }}</div>
                                 </div>
                                 <div class="prices text-right">
-                                    <div class="price-current inline">{{ number_format($product->sale_price, 0, ',', '.') }} VND</div>
-                                    <a href="#" class="le-button big inline" v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
+                                    <div class="price-current inline">{{ number_format($product->sale_price, 0, ',', '.') }}
+                                        VND
+                                    </div>
+                                    <a href="#" class="le-button big inline"
+                                       v-on:click="addToCart({{ $product->id }}, $event)">Thêm giỏ hàng</a>
                                 </div>
                             </div><!-- /.product-item-holder -->
                         </div><!-- /.col -->
@@ -913,6 +920,47 @@
     </section><!-- /#top-brands -->
     <!-- ========================================= TOP BRANDS : END ========================================= -->
 @endsection
-@section('body_scripts')
 
+@section('body_scripts')
+    <script type="text/javascript" src="{{ asset('js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/axios.min.js') }}"></script>
+    <script type="text/javascript">
+        axios.defaults.headers.common = {
+            'X-Requested-With': 'XMLHttpRequest'
+        };
+        new Vue({
+            el: "#app",
+            data: {
+                cart: {},
+                total: 0,
+                sumPrice: 0
+            },
+
+            methods: {
+                addToCart: function (id, event) {
+                    event.preventDefault();
+                    var vm = this;
+                    axios.post('{{ route('api.cart.addToCart') }}', {
+                        id: id
+                    }).then(function (response) {
+                        vm.cart = response && response.data && response.data.cart;
+                        vm.total = response && response.data && response.data.total;
+                        vm.sumPrice = response && response.data && response.data.sumPrice;
+                    });
+                },
+                getCart: function () {
+                    var vm = this;
+                    axios.get('{{ route('api.cart.getCart') }}').
+                    then(function (response) {
+                        vm.cart = response && response.data && response.data.cart;
+                        vm.total = response && response.data && response.data.total;
+                        vm.sumPrice = response && response.data && response.data.sumPrice;
+                    });
+                }
+            },
+            mounted: function () {
+                this.getCart();
+            }
+        });
+    </script>
 @endsection
