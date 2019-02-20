@@ -939,6 +939,7 @@
             methods: {
                 addToCart: function (id, event) {
                     event.preventDefault();
+                    alert(id);
                     var vm = this;
                     axios.post('{{ route('api.cart.addToCart') }}', {
                         id: id
@@ -950,8 +951,7 @@
                 },
                 getCart: function () {
                     var vm = this;
-                    axios.get('{{ route('api.cart.getCart') }}').
-                    then(function (response) {
+                    axios.get('{{ route('api.cart.getCart') }}').then(function (response) {
                         vm.cart = response && response.data && response.data.cart;
                         vm.total = response && response.data && response.data.total;
                         vm.sumPrice = response && response.data && response.data.sumPrice;

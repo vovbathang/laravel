@@ -96,7 +96,7 @@
 <!-- Scripts -->
 @yield('body_scripts_top')
 {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 @yield('body_scripts_bottom')
 </body>

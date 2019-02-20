@@ -8,8 +8,6 @@ use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Cookie\CookieJar;
 
 class HomeController extends Controller
 {
@@ -72,8 +70,7 @@ class HomeController extends Controller
                 $recent_products = array_slice($recent_products, 0, 6);
             }
         }
-
-        $cookies = cookie('recent_products', $recent_products, 1400);
+        $cookie = cookie('recent_products', $recent_products, 1440);
 
         $data['recent_products'] = [];
         if (is_array($recent_products)) {
@@ -81,7 +78,6 @@ class HomeController extends Controller
         }
 
         return response()->view('frontend.default.single-product', $data);
-
     }
 
     public function comment(Request $request, $slug, $id)
