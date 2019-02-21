@@ -229,16 +229,16 @@
 
             <div class="col-xs-12 col-sm-12 col-md-3 top-cart-row no-margin">
                 <div class="top-cart-row-container">
-                    {{--<div class="wishlist-compare-holder">--}}
-                        {{--<div class="wishlist ">--}}
-                            {{--<a href="#"><i class="fa fa-heart"></i> wishlist <span class="value">(21)</span> </a>--}}
-                        {{--</div>--}}
-                        {{--<div class="compare">--}}
-                            {{--<a href="#"><i class="fa fa-exchange"></i> compare <span class="value">(2)</span> </a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
+                {{--<div class="wishlist-compare-holder">--}}
+                {{--<div class="wishlist ">--}}
+                {{--<a href="#"><i class="fa fa-heart"></i> wishlist <span class="value">(21)</span> </a>--}}
+                {{--</div>--}}
+                {{--<div class="compare">--}}
+                {{--<a href="#"><i class="fa fa-exchange"></i> compare <span class="value">(2)</span> </a>--}}
+                {{--</div>--}}
+                {{--</div>--}}
 
-                    <!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
+                <!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
                     <div class="top-cart-holder dropdown animate-dropdown">
 
                         <div class="basket">
@@ -269,7 +269,9 @@
                                             </div>
                                             <div class="col-xs-8 col-sm-8 no-margin">
                                                 <div class="title" v-text="product.name"></div>
-                                                <div class="price" v-text="product.quantity + ' x ' +product.price + 'Đ'">0</div>
+                                                <div class="price"
+                                                     v-text="product.quantity + ' x ' +product.price + 'Đ'">0
+                                                </div>
                                             </div>
                                         </div>
                                         <a class="close-btn" href="#"></a>
@@ -281,7 +283,8 @@
                                     <div class="basket-item">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-6">
-                                                <a href="{{ route('frontend.cart.index') }}" class="le-button inverse">Giỏ hàng</a>
+                                                <a href="{{ route('frontend.cart.index') }}" class="le-button inverse">Giỏ
+                                                    hàng</a>
                                             </div>
                                             <div class="col-xs-12 col-sm-6">
                                                 <a href="{{ route('frontend.checkout.index') }}" class="le-button">Checkout</a>
@@ -615,7 +618,8 @@
                     </div><!-- /.navbar -->
                 </div><!-- /.container -->
             </nav>
-            <div class="animate-dropdown"><!-- ========================================= BREADCRUMB ========================================= -->
+            <div class="animate-dropdown">
+                <!-- ========================================= BREADCRUMB ========================================= -->
                 <div id="breadcrumb-alt">
                     <div class="container">
                         <div class="breadcrumb-nav-holder minimal">
@@ -639,7 +643,8 @@
                                 </li><!-- /.breadcrumb-item -->
 
                                 <li class="dropdown breadcrumb-item">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">laptops &amp; computers </a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">laptops &amp;
+                                        computers </a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a href="#">PDA</a>
@@ -675,15 +680,16 @@
                         </div>
                     </div><!-- /.container -->
                 </div><!-- /#breadcrumb-alt -->
-                <!-- ========================================= BREADCRUMB : END ========================================= --></div>
+                <!-- ========================================= BREADCRUMB : END ========================================= -->
+            </div>
         @endif
     </header>
 
-    {{-- Content --}}
-    @yield('content')
-    {{-- End Content --}}
+{{-- Content --}}
+@yield('content')
+{{-- End Content --}}
 
-    <!-- ============================================================= HEADER : END ============================================================= -->
+<!-- ============================================================= HEADER : END ============================================================= -->
     <footer id="footer" class="color-bg">
 
         <div class="container">
@@ -1123,14 +1129,14 @@
                         vm.sumPrice = response && response.data && response.data.sumPrice;
                     });
             },
-            addQuantity: function() {
+            addQuantity: function () {
                 this.quantity += 1;
             },
-            subtractQuantity: function() {
+            subtractQuantity: function () {
                 this.quantity -= 1;
             }
         },
-        mounted: function() {
+        mounted: function () {
             this.getCart();
         }
     });
