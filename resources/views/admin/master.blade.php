@@ -10,7 +10,7 @@
 
     <title>
         @section('title')
-            QHOnline Shop
+            Laravel Shop
         @show
     </title>
 
