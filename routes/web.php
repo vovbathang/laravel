@@ -23,7 +23,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Backend'], 
     Route::get('/users/{id}', 'UserController@show')->where('id','[0-9]+')->name('user.show');
     Route::put('/users/{id}', 'UserController@update')->name('user.update');
     Route::delete('/users/{id}', 'UserController@delete')->name('user.delete');
-
+    
 //    Category
     Route::get('/categories', 'CategoryController@index')->name('category.index');
     Route::get('/categories/create', 'CategoryController@create')->name('category.create');
@@ -51,10 +51,10 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend'], function() {
 //    User
     Route::get('/', 'HomeController@index')->name('home.index');
     Route::get('/products/{slug}-{id}.html', 'HomeController@show')->name('home.show')
-        ->where([
-            'slug' => '[a-z-]+',
-            'id' => '[0-9]+'
-        ]);
+    ->where([
+        'slug' => '[a-z-]+',
+        'id' => '[0-9]+'
+    ]);
     Route::post('/products/{slug}-{id}.html', 'HomeController@comment')->name('home.comment')
         ->where([
             'slug' => '[a-z-]+',
@@ -77,6 +77,7 @@ Route::group(['as' => 'api.', 'prefix' => 'api', 'namespace' => 'Frontend'], fun
     Route::post('/cart', 'CartController@addToCart')->name('cart.addToCart');
 
 });
+
 
 
 //Route::get('/users/{id}/abc/{name}', 'UserController@show')->where([

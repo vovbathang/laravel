@@ -445,7 +445,7 @@
                         </div><!-- /.item -->
 
                         <div class="item"
-                             style="background-image: url({{ asset('themes/default/assets/images/sliders/slider03.jpg') }});">
+                             style="background-image: url({{ asset('themes/default/assets/images/sliders/slider02.jpg') }});">
                             <div class="container-fluid">
                                 <div class="caption vertical-center text-left">
                                     <div class="big-text fadeInDown-1">
@@ -480,21 +480,21 @@
             <div class="col-xs-12 col-lg-6 no-margin banner">
                 <a href="category-grid-2.html">
                     <div class="banner-text theblue">
-                        <h1>New Life</h1>
-                        <span class="tagline">Introducing New Category</span>
+                        <h1></h1>
+                        <span class="tagline"></span>
                     </div>
                     <img class="banner-image" alt="" src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                         data-echo="{{ asset('themes/default/assets/images/banners/banner-narrow-01.jpg') }}"/>
+                         data-echo="{{ asset('themes/default/assets/images/banners/banner1.jpeg') }}"/>
                 </a>
             </div>
             <div class="col-xs-12 col-lg-6 no-margin text-right banner">
                 <a href="category-grid-2.html">
                     <div class="banner-text right">
-                        <h1>Time &amp; Style</h1>
-                        <span class="tagline">Checkout new arrivals</span>
+                        <h1></h1>
+                        <span class="tagline"></span>
                     </div>
                     <img class="banner-image" alt="" src="{{ asset('themes/default/assets/images/blank.gif') }}"
-                         data-echo="{{ asset('themes/default/assets/images/banners/banner-narrow-02.jpg') }}"/>
+                         data-echo="{{ asset('themes/default/assets/images/banners/banner2.jpg') }}"/>
                 </a>
             </div>
         </div><!-- /.container -->
@@ -929,7 +929,7 @@
             'X-Requested-With': 'XMLHttpRequest'
         };
         new Vue({
-            el: "#app",
+            el: '#app',
             data: {
                 cart: {},
                 total: 0,
